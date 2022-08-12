@@ -1,0 +1,10 @@
+firefighter
+policeman
+judge
+soldier
+teacher
+doctor
+lawyer
+driver
+waiter
+president
