@@ -1,5 +1,6 @@
-CC=cc
-CFLAGS=-Wall -Wextra -Wshadow -pedantic -O2 -ansi
+UNIXCC=cc
+WINCC=x86_64-w64-mingw32-gcc
+CFLAGS=-Wall -Wextra -Wshadow -pedantic -O2 --std=c99
 UNIXEXEC=hangman
 WINEXEC=hangman.exe
 SRC=hangman.c
@@ -7,7 +8,7 @@ SRC=hangman.c
 all: $(UNIXEXEC) $(WINEXEC)
 
 $(UNIXEXEC): $(SRC)
-	$(CC) $(CFLAGS) -o $@ $^ -DUNIX
+	$(UNIXCC) $(CFLAGS) -o $@ $^ -DUNIX
 
 $(WINEXEC): $(SRC)
-	$(CC) $(CFLAGS) -o $@ $^ -DWIN32
+	$(WINCC) $(CFLAGS) -o $@ $^ -DWIN32
