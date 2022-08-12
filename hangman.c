@@ -403,7 +403,7 @@ main(int argc, char *argv[])
 	fflush(stdout);
 	printf("%s\n", display);
 	fflush(stdout);
-	printf("Final score: %d\n", score);
+	printf("GAMEOVER!\nFinal score: %d\n", score);
 	fflush(stdout);
 
 	return EXIT_SUCCESS;
