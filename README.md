@@ -10,6 +10,18 @@ content linearly (not randomly).
 $ hangman FILE
 ```
 
+Example:
+
+```
+$ hangman exampleguessfile.txt
+```
+
+or
+
+```
+$ hangman exampledict.txt
+```
+
 ## Building
 
 ```
