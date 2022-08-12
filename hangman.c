@@ -400,6 +400,10 @@ main(int argc, char *argv[])
 #endif
 
 	/* final info */
+	printf(hangman[wrongcount]);
+	fflush(stdout);
+	printf("%s\n", display);
+	fflush(stdout);
 	printf("Final score: %d\n", score);
 	fflush(stdout);
 
