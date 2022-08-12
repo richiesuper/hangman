@@ -372,7 +372,6 @@ main(int argc, char *argv[])
 
 			/* check if answer has been correctly fully guessed */
 			for (i = 0; display[i] != '\0'; ++i) {
-
 				/* if not... */
 				if (display[i] == '_') {
 					correctlyguessed = 0;
@@ -394,9 +393,9 @@ main(int argc, char *argv[])
 	fclose(fp);
 
 #ifdef UNIX
-		system("clear");
+	system("clear");
 #else
-		system("cls");
+	system("cls");
 #endif
 
 	/* final info */
