@@ -12,3 +12,8 @@ $(UNIXEXEC): $(SRC)
 
 $(WINEXEC): $(SRC)
 	$(WINCC) $(CFLAGS) -o $@ $^ -DWIN32
+
+clean:
+	rm -f $(UNIXCC) $(WINEXEC)
+
+.PHONY: all clean
