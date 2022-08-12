@@ -16,22 +16,31 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-/* header files */
+/** header files **/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 
-/* macros and symbolic constants */
+/** macros and symbolic constants **/
+
+/* usage information */
 #define USAGE \
 	"Usage: %s FILE\n\n" \
 	"FILE specification:\n" \
 	"\tContains lines with max length of %d characters, including newline\n"
+/* max answer word / phrase length, actually minus one NUL */
 #define MAXSTRLEN 32
-/* MAXSTRLEN wide * MAXSTRLEN/2 long + MAXSTRLEN newlines + 1 NUL */
+/* x, y dimension for hangman graphics */
 #define WIDTH MAXSTRLEN
 #define LENGTH MAXSTRLEN / 2
+/**
+ * hangman string length
+ * MAXSTRLEN wide * MAXSTRLEN/2 long + MAXSTRLEN newlines + 1 NUL
+ */
 #define MAXHANGMMANLEN WIDTH * LENGTH + MAXSTRLEN + 1
+/* hangman graphics */
 #define HANGMANSTRA \
 	"                                \n" \
 	"                                \n" \
@@ -219,11 +228,14 @@
 	"  /     \\                 ||    \n" \
 	" /       \\                ||    \n" \
 	"/         \\           ____||____\n"
+/* you can only enter wrong input 10 times! */
 #define MAXWRONGS 10
+/* the value to be added to score for each correct character */
 #define CHARVALUE 50
+/* number of characters in alphabet */
 #define ALPHABETNUM 26
 
-/* main: program start */
+/** main: program start **/
 int
 main(int argc, char *argv[])
 {
@@ -231,22 +243,23 @@ main(int argc, char *argv[])
 	 * fp: file pointer
 	 * gameover: boolean, controls the game loop
 	 * score: tracks user points
-	 * found: boolean, if input is found in answer
-	 * wrongcount: number of wrong input
+	 * found: boolean, true if input is found in answer
+	 * wrongcount: number of wrong inputs
 	 * correctchars: number of correct chars in a verification sweep
-	 * inputmem: A-Z map of user input
+	 * inputmem: A-Z map of user input (26 uppercase characters)
 	 * correctlyguessed: boolean, if current word is guessed correctly
 	 * cleared: boolean, if current guess word is cleared
-	 * i : iterator
+	 * i : iterator for loops
 	 * input: user input
 	 * lastinput: last user input character
 	 * answer: guessed word or phrase
-	 * display: the current correct user input
-	 * hangman: hangman "graphics"
+	 * display: the currently correct user input
+	 * hangman: pointer to hangman "graphic" states made of strings;
+	 *          there are 11 states, from nothing at all to dead hanged man
 	 */
 	FILE *fp;
 	int gameover = 0;
-	int score = 0;
+	unsigned score = 0;
 	int found = 0;
 	int wrongcount = 0;
 	int correctchars = 0;
@@ -279,6 +292,7 @@ main(int argc, char *argv[])
 		return EXIT_FAILURE;
 	}
 
+	/* if failed to open file pointed to by fp, terminate program */
 	if ((fp = fopen(argv[1], "r")) == NULL) {
 		fprintf(stderr, "ERROR: Failed to open '%s'\n\n", argv[1]);
 		fprintf(stderr, USAGE, argv[0], MAXSTRLEN);
@@ -296,12 +310,14 @@ main(int argc, char *argv[])
 		if (cleared) {
 			/* copy a line from fp as our answer */
 			if ((fgets(answer, MAXSTRLEN, fp)) != NULL) {
-				/* replace read newlines with NUL */
+				/* replace read newline with NUL */
 				answer[strcspn(answer, "\n")] = '\0';
 
+				/* convert answer to uppercased chars */
 				for (i = 0; answer[i] != '\0'; ++i)
 					answer[i] = toupper(answer[i]);
 			} else {
+				/* we reached the end of file or fgets failed to read */
 				gameover = 1;
 				break;
 			}
@@ -353,6 +369,7 @@ main(int argc, char *argv[])
 		if (input == EOF)
 			break;
 
+		/* if we got a newline, use lastinput for input, else just use input */
 		if (input == '\n')
 			input = toupper(lastinput);
 		else
@@ -408,6 +425,7 @@ main(int argc, char *argv[])
 	/* close fp */
 	fclose(fp);
 
+	/* clear the screen one last time */
 #ifdef UNIX
 	system("clear");
 #else
