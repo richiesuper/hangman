@@ -1,2 +1,3 @@
 1. Add used character list
 2. Do not process input of lone newline
+3. Add a timer (10s) for every user input prompt.
